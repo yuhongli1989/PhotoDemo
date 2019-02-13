@@ -15,6 +15,8 @@ class HLAssetViewController: UIViewController {
     
     let imageManager = PHImageManager.default()
     
+    
+    
     lazy var scrollView:UIScrollView = {
         let v = UIScrollView(frame: view.bounds)
         v.maximumZoomScale = 3
@@ -26,11 +28,15 @@ class HLAssetViewController: UIViewController {
     lazy var imageView:UIImageView = {
         let img = UIImageView(frame: view.bounds)
         img.contentMode = .scaleAspectFit
+        img.image = smallImage
         return img
     }()
     
-    init(_ asset:PHAsset) {
+    var smallImage:UIImage?
+    
+    init(_ asset:PHAsset,_ image:UIImage? = nil) {
         photoAsset = asset
+        smallImage = image
         super.init(nibName: nil, bundle: nil)
         PHPhotoLibrary.shared().register(self)
     }
@@ -42,50 +48,35 @@ class HLAssetViewController: UIViewController {
     deinit {
         PHPhotoLibrary.shared().unregisterChangeObserver(self)
     }
-    
-    
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = UIColor.white
         view.addSubview(scrollView)
         scrollView.addSubview(imageView)
-        if photoAsset.mediaSubtypes.contains(.photoLive) {
-            
-        }else{
-            uploadStaticImage()
-        }
         
-        
+//        if photoAsset.mediaSubtypes.contains(.photoLive) {
+//
+//        }else{
+//
+//        }
+
+        imageView.hl_getStaticImage(photoAsset)
         // Do any additional setup after loading the view.
     }
-    
-    func uploadStaticImage()  {
-        
-        let options = PHImageRequestOptions()
-        options.isNetworkAccessAllowed = true
+    //MARK:加载视频
+    func updateLivePhoto()  {
+        let options = PHLivePhotoRequestOptions()
         options.deliveryMode = .highQualityFormat
-        
-        
-        PHImageManager.default().requestImage(for: photoAsset, targetSize: imageView.bounds.size, contentMode: .aspectFit, options: options) {[weak self] (image, _) in
+        options.isNetworkAccessAllowed = true
+        options.progressHandler = { progress,_,_,_ in
+            print("progress===\(progress)")
             
-            print("image===\(image)")
-            self?.imageView.image = image
+        }
+        PHImageManager.default().requestLivePhoto(for: photoAsset, targetSize: imageView.bounds.size, contentMode: .aspectFit, options: options) { (livePhoto, info) in
             
-            print("aaaaaa")
         }
     }
     
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
 
 }
 //MARK: changeObserver

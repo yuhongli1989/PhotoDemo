@@ -12,10 +12,9 @@ import Photos
 class ViewController: UIViewController {
 
     @IBOutlet weak var tableView: UITableView!
-    let imageManager = PHImageManager()
-    let cacheManager = PHCachingImageManager()
+
     
-    var result = [PHAssetCollection]()
+    var result = HLPhotoManager.default().getAllCollections()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -24,20 +23,6 @@ class ViewController: UIViewController {
         
         tableView.register(nib, forCellReuseIdentifier: PhotoColictionCell.cellIdentifier)
         
-        let options = PHFetchOptions()
-        
-        let collectionItems = PHAssetCollection.fetchAssetCollections(with: .smartAlbum, subtype: .any, options: options)
-        collectionItems.enumerateObjects({[weak self] (collection, i, _) in
-            
-            if collection.assetCollectionSubtype == .smartAlbumUserLibrary{
-                self?.result.insert(collection, at: 0)
-            }else{
-                self?.result.append(collection)
-            }
-            
-            
-            
-        })
         
         
     }
@@ -65,23 +50,8 @@ extension ViewController:UITableViewDelegate,UITableViewDataSource{
             let cell = tableView.dequeueReusableCell(withIdentifier: PhotoColictionCell.cellIdentifier, for: indexPath) as! PhotoColictionCell
             if result.count > 0{
                 let item = result[indexPath.row]
-                let assets = PHAsset.fetchAssets(in: item, options: nil)
-                cell.titleLabel.text = NSLocalizedString("\(item.localizedTitle ?? "")", comment: "") + "(\(assets.count))"
-                if let firstImage = assets.firstObject{
-                    let scale = UIScreen.main.scale
-                    cell.localIdentifier = firstImage.localIdentifier
-                    
-                    cacheManager.requestImage(for: firstImage, targetSize: CGSize(width: 64*scale, height: 64*scale), contentMode: .default, options: nil) { (image, _) in
-                        if cell.localIdentifier == firstImage.localIdentifier{
-                            cell.iconImage.image = image
-                        }else{
-                            cell.iconImage.image = nil
-                        }
-                        
-                    }
-                    
-                }else{
-                    cell.iconImage.image = nil
+                item.asyIconImage { (image, _) in
+                    cell.iconImage.image = image
                 }
             }
             return cell
@@ -100,7 +70,8 @@ extension ViewController:UITableViewDelegate,UITableViewDataSource{
         
         if result.count > indexPath.row {
             let r = result[indexPath.row]
-            let vc = HLAlbumViewController(r)
+            
+            let vc = HLAlbumViewController(r.getPhotoModel())
             self.navigationController?.pushViewController(vc, animated: true)
             
         }

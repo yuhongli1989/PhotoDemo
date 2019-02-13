@@ -20,32 +20,34 @@ class HLAlbumViewController: UIViewController {
 //    }
     
     var availableWidth:CGFloat = 0
-    let imageManager = PHCachingImageManager()
-    var assetCollection:PHAssetCollection?
-    var fetchResult:PHFetchResult<PHAsset>!
-    init(_ collection:PHAssetCollection? = nil) {
-        assetCollection = collection
-        super.init(nibName: "HLAlbumViewController", bundle: Bundle.main)
-        let options = PHFetchOptions()
-        options.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: true)]
-        if assetCollection != nil {
-            fetchResult = PHAsset.fetchAssets(in: assetCollection!, options: options)
+    
+    var assetCollection:HLPhotoModelManager
+    
+    init(_ collection:HLPhotoModelManager? = nil) {
+        if let col = collection {
+            assetCollection = col
         }else{
-            fetchResult = PHAsset.fetchAssets(with: options)
+            assetCollection = HLPhotoManager.default().getAllCachingImages()
         }
+        super.init(nibName: "HLAlbumViewController", bundle: Bundle.main)
+
         
-        PHPhotoLibrary.shared().register(self)
+//        PHPhotoLibrary.shared().register(self)
         
     }
     
     required init?(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
-        print(#function)
+        fatalError("init(coder:) has not been implemented")
     }
     
-    deinit {
-        PHPhotoLibrary.shared().unregisterChangeObserver(self)
-    }
+//    required init?(coder aDecoder: NSCoder) {
+//        super.init(coder: aDecoder)
+//        print(#function)
+//    }
+    
+//    deinit {
+//        PHPhotoLibrary.shared().unregisterChangeObserver(self)
+//    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -103,38 +105,47 @@ class HLAlbumViewController: UIViewController {
 
 }
 
-extension HLAlbumViewController:PHPhotoLibraryChangeObserver{
-    func photoLibraryDidChange(_ changeInstance: PHChange) {
-        
-        guard let changeResult = changeInstance.changeDetails(for: fetchResult) else {
-            return
-        }
-        
-        fetchResult = changeResult.fetchResultAfterChanges
-        collectionView.reloadData()
-        
-    }
-    
-    
-}
+//extension HLAlbumViewController:PHPhotoLibraryChangeObserver{
+//    func photoLibraryDidChange(_ changeInstance: PHChange) {
+//
+//        guard let changeResult = changeInstance.changeDetails(for: fetchResult) else {
+//            return
+//        }
+//
+//        fetchResult = changeResult.fetchResultAfterChanges
+//        DispatchQueue.main.async {
+//            self.collectionView.reloadData()
+//        }
+//
+//    }
+//
+//
+//}
 //MARK: collection delegate
 extension HLAlbumViewController:UICollectionViewDataSource,UICollectionViewDelegate{
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return fetchResult.count
+        print("assetCollection===\(assetCollection.count)")
+        return assetCollection.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! HLAlbumCell
         
-        if fetchResult.count > 0 {
-           
-            let asset = fetchResult.object(at: indexPath.row)
-            cell.burstIdentifier = asset.burstIdentifier ?? ""
+        if assetCollection.count > 0 {
+            let burstIdentifier = assetCollection.getLocalIdentifier(indexPath.row) ?? ""
+            print("burstIdentifier===\(burstIdentifier)")
+            cell.burstIdentifier = assetCollection.getLocalIdentifier(indexPath.row) ?? ""
             cell.iconImage.frame = CGRect(origin: .zero, size: layout.itemSize)
-            imageManager.requestImage(for: asset, targetSize: layout.itemSize, contentMode: .aspectFill, options: nil) { (image, dic) in
-                cell.iconImage.image = image
+
+            assetCollection.asyGetCachImage(indexPath.row, layout.itemSize) { (image, dic) in
+                
+                if cell.burstIdentifier == burstIdentifier{
+                    cell.iconImage.image = image
+                }
+                
             }
+           
         }
         
         return cell
@@ -143,12 +154,17 @@ extension HLAlbumViewController:UICollectionViewDataSource,UICollectionViewDeleg
     
     //MARK: cell点击
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        guard fetchResult.count > indexPath.row else {
-            return
-        }
-        let asset = fetchResult.object(at: indexPath.row)
-        let vc = HLAssetViewController(asset)
-        self.navigationController?.pushViewController(vc, animated: true)
+//        guard fetchResult.count > indexPath.row else {
+//            return
+//        }
+//        var img:UIImage? = nil
+//        if let cell = collectionView.cellForItem(at: indexPath) as? HLAlbumCell{
+//            img = cell.iconImage.image
+//        }
+//
+//        let asset = fetchResult.object(at: indexPath.row)
+//        let vc = HLAssetViewController(asset,img)
+//        self.navigationController?.pushViewController(vc, animated: true)
         
     }
     
