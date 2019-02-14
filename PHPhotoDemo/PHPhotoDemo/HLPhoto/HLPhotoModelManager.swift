@@ -9,20 +9,25 @@
 import UIKit
 import Photos
 
-class HLPhotoModelManager {
+class HLPhotoModelManager:NSObject {
     
-    private let result:PHFetchResult<PHAsset>
-    
+    private var result:PHFetchResult<PHAsset>
+    var photoChange:(()->())?
     var count:Int{
         return result.count
     }
     
-    init(_ m:PHFetchResult<PHAsset>) {
-        
+    public init(_ m:PHFetchResult<PHAsset>) {
         result = m
+        super.init()
+        PHPhotoLibrary.shared().register(self)
     }
     
-    func asyGetCachImage(_ index:Int,_ targetSize:CGSize,_ resultHandler: @escaping (UIImage?, [AnyHashable : Any]?) -> Void)  {
+    deinit {
+        PHPhotoLibrary.shared().unregisterChangeObserver(self)
+    }
+    
+    open func asyGetCachImage(_ index:Int,_ targetSize:CGSize,_ resultHandler: @escaping (UIImage?, [AnyHashable : Any]?) -> Void)  {
         guard let asset = getAsset(index) else {
             return
         }
@@ -30,7 +35,7 @@ class HLPhotoModelManager {
         
     }
     
-    func asyGetImage(_ index:Int,_ progress: HLProgress?=nil,_ resultHandler: @escaping (UIImage?, [AnyHashable : Any]?) -> Void)  {
+    open func asyGetImage(_ index:Int,_ progress: HLProgress?=nil,_ resultHandler: @escaping (UIImage?, [AnyHashable : Any]?) -> Void)  {
         guard let asset = getAsset(index) else {
             return
         }
@@ -45,11 +50,26 @@ class HLPhotoModelManager {
     }
     
     //获取标识符
-    func getLocalIdentifier(_ index:Int) -> String? {
+    open func getLocalIdentifier(_ index:Int) -> String? {
         guard let asset = getAsset(index) else {
             return nil
         }
         return asset.localIdentifier
     }
     
+    open subscript(_ index:Int)->HLPhotoItem?{
+        guard let asset = getAsset(index) else{return nil}
+        return HLPhotoItem(asset)
+    }
+    
 }
+extension HLPhotoModelManager:PHPhotoLibraryChangeObserver{
+    internal func photoLibraryDidChange(_ changeInstance: PHChange) {
+        if let changeDetails = changeInstance.changeDetails(for: result){
+            result = changeDetails.fetchResultAfterChanges
+            photoChange?()
+        }
+    }
+    
+}
+

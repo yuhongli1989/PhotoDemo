@@ -7,15 +7,9 @@
 //
 
 import UIKit
-import Photos
+
 
 class HLAssetViewController: UIViewController {
-
-    var photoAsset:PHAsset
-    
-    let imageManager = PHImageManager.default()
-    
-    
     
     lazy var scrollView:UIScrollView = {
         let v = UIScrollView(frame: view.bounds)
@@ -28,64 +22,38 @@ class HLAssetViewController: UIViewController {
     lazy var imageView:UIImageView = {
         let img = UIImageView(frame: view.bounds)
         img.contentMode = .scaleAspectFit
-        img.image = smallImage
+        
         return img
     }()
     
-    var smallImage:UIImage?
+    let photoItem:HLPhotoItem
     
-    init(_ asset:PHAsset,_ image:UIImage? = nil) {
-        photoAsset = asset
-        smallImage = image
+    init(_ asset:HLPhotoItem) {
+        photoItem = asset
         super.init(nibName: nil, bundle: nil)
-        PHPhotoLibrary.shared().register(self)
+        
     }
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    deinit {
-        PHPhotoLibrary.shared().unregisterChangeObserver(self)
-    }
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = UIColor.white
         view.addSubview(scrollView)
         scrollView.addSubview(imageView)
         
-//        if photoAsset.mediaSubtypes.contains(.photoLive) {
-//
-//        }else{
-//
-//        }
+        photoItem.asyGetImage {[weak self] (image, _) in
+            self?.imageView.image = image
+        }
 
-        imageView.hl_getStaticImage(photoAsset)
+        
         // Do any additional setup after loading the view.
     }
-    //MARK:加载视频
-    func updateLivePhoto()  {
-        let options = PHLivePhotoRequestOptions()
-        options.deliveryMode = .highQualityFormat
-        options.isNetworkAccessAllowed = true
-        options.progressHandler = { progress,_,_,_ in
-            print("progress===\(progress)")
-            
-        }
-        PHImageManager.default().requestLivePhoto(for: photoAsset, targetSize: imageView.bounds.size, contentMode: .aspectFit, options: options) { (livePhoto, info) in
-            
-        }
-    }
-    
 
 }
-//MARK: changeObserver
-extension HLAssetViewController:PHPhotoLibraryChangeObserver{
-    func photoLibraryDidChange(_ changeInstance: PHChange) {
-        
-    }
-    
-}
+
 //MARK: scrollViewDelegate
 extension HLAssetViewController:UIScrollViewDelegate{
     

@@ -7,7 +7,7 @@
 //
 
 import UIKit
-import Photos
+
 
 class ViewController: UIViewController {
 
@@ -18,7 +18,7 @@ class ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        PHPhotoLibrary.shared().register(self)
+
         let nib = UINib.init(nibName: PhotoColictionCell.cellIdentifier, bundle: Bundle.main)
         
         tableView.register(nib, forCellReuseIdentifier: PhotoColictionCell.cellIdentifier)
@@ -27,9 +27,6 @@ class ViewController: UIViewController {
         
     }
     
-    deinit {
-        PHPhotoLibrary.shared().unregisterChangeObserver(self)
-    }
     
     @IBAction func backClick(_ sender: Any) {
         self.dismiss(animated: true, completion: nil)
@@ -50,8 +47,10 @@ extension ViewController:UITableViewDelegate,UITableViewDataSource{
             let cell = tableView.dequeueReusableCell(withIdentifier: PhotoColictionCell.cellIdentifier, for: indexPath) as! PhotoColictionCell
             if result.count > 0{
                 let item = result[indexPath.row]
+                cell.titleLabel?.text = item.titleStr
                 item.asyIconImage { (image, _) in
                     cell.iconImage.image = image
+                    
                 }
             }
             return cell
@@ -62,9 +61,9 @@ extension ViewController:UITableViewDelegate,UITableViewDataSource{
         
     }
     
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 80
-    }
+//    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+//        return 80
+//    }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
@@ -81,10 +80,3 @@ extension ViewController:UITableViewDelegate,UITableViewDataSource{
     
 }
 
-extension ViewController:PHPhotoLibraryChangeObserver{
-    func photoLibraryDidChange(_ changeInstance: PHChange) {
-        print(#function)
-    }
-    
-    
-}

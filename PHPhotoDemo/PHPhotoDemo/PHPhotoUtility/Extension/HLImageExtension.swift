@@ -11,20 +11,6 @@ import Photos
 
 extension UIImageView{
     
-    typealias HLProgress = ((_ pro:Double,_ error:Error?)->Void)
-    typealias HLCompletion = (()->Void)
-    func hl_getStaticImage(_ photoAsset:PHAsset,_ progress: HLProgress?=nil,_ completion:HLCompletion?=nil)  {
-        let options = PHImageRequestOptions()
-        options.isNetworkAccessAllowed = true
-        options.deliveryMode = .highQualityFormat
-        options.progressHandler = { pro,error,_,info in
-            progress?(pro,error)
-        }
-        
-        PHImageManager.default().requestImage(for: photoAsset, targetSize: self.bounds.size, contentMode: .aspectFit, options: options) {[weak self] (image, _) in
-            self?.image = image
-            completion?()
-        }
-    }
+    
     
 }

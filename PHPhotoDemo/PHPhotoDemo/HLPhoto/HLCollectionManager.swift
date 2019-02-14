@@ -9,16 +9,20 @@
 import UIKit
 import Photos
 
-class HLCollectionManager {
+class HLCollectionManager :NSObject{
     let titleStr:String
     private let assetCollection:PHAssetCollection
+//    weak var delegate
     init(_ collection:PHAssetCollection) {
         assetCollection = collection
         let assets = PHAsset.fetchAssets(in: collection, options: nil)
         titleStr = NSLocalizedString("\(collection.localizedTitle ?? "")", comment: "") + "(\(assets.count))"
+        
     }
     
-    func asyIconImage(_ resultHandler: @escaping (UIImage?, [AnyHashable : Any]?) -> Void)  {
+    
+    
+    open func asyIconImage(_ resultHandler: @escaping (UIImage?, [AnyHashable : Any]?) -> Void)  {
         
         if let firstImage = firstObject{
             let scale = UIScreen.main.scale
@@ -26,7 +30,7 @@ class HLCollectionManager {
         }
     }
     
-    var localIdentifier:String?{
+    open var localIdentifier:String?{
         return firstObject?.localIdentifier
     }
     
@@ -35,9 +39,12 @@ class HLCollectionManager {
         return assets.firstObject
     }
     //
-    func getPhotoModel()->HLPhotoModelManager  {
+    open func getPhotoModel()->HLPhotoModelManager  {
         let assets = PHAsset.fetchAssets(in: assetCollection, options: nil)
         return HLPhotoModelManager(assets)
     }
     
 }
+
+
+

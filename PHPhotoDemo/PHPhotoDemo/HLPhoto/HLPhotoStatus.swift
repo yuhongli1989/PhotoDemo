@@ -11,22 +11,32 @@ import Photos
 
 class HLPhotoStatus: NSObject {
 //NSPhotoLibraryUsageDescription info 添加白名单
-    override init() {
+    
+    public init(_ isSuccess:@escaping (_ isOk:Bool)->()) {
         super.init()
+        
         PHPhotoLibrary.requestAuthorization { (status) in
+            let isok:Bool
             switch status{
             case .authorized://授权访问
+                isok = true
                 break
-            case .denied://用户拒绝访问
-                break
-            case .notDetermined://没有授权
-                break
-            case .restricted://无权访问，用户无法授权
+            case .denied,.notDetermined,.restricted://用户拒绝访问 没有授权 无权访问，用户无法授权
+                isok = false
                 break
             }
+            DispatchQueue.main.async {
+                isSuccess(isok)
+            }
         }
+        
+        
     }
-    
-    
-    
+
 }
+
+
+
+
+
+

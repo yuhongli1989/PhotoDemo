@@ -18,15 +18,23 @@ class HomeViewController: UIViewController {
     
 
     @IBAction func click(_ sender: Any) {
-        let nav = self.storyboard?.instantiateViewController(withIdentifier: "PhotoNav") as! UINavigationController
+        let _ = HLPhotoStatus { (successed) in
+            if successed{
+                let nav = self.storyboard?.instantiateViewController(withIdentifier: "PhotoNav") as! UINavigationController
+                
+                let vc = HLAlbumViewController()
+                
+                
+                print("vc===\(vc)")
+                
+                nav.viewControllers.append(vc)
+                self.present(nav, animated: true, completion: nil)
+            }else{
+                print("未授权去授权")
+            }
+            
+        }
         
-        let vc = HLAlbumViewController()
-        
-        
-        print("vc===\(vc)")
-        
-        nav.viewControllers.append(vc)
-        self.present(nav, animated: true, completion: nil)
     }
     
 }
