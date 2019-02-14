@@ -22,7 +22,7 @@ Pod::Spec.new do |s|
   # s.public_header_files = "Classes/**/*.h"
 
    s.requires_arc = true
-
+   s.swift_version = '4.2'
 
 
 end
