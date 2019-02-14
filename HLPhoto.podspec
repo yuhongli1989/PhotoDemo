@@ -14,15 +14,12 @@ Pod::Spec.new do |s|
   s.author             = { "yuhongli" => "753597827@qq.com" }
   s.ios.deployment_target = "8.0"
   s.source       = { :git => "https://github.com/yuhongli1989/PhotoDemo.git", :tag => "#{s.version}" }
-
-  s.source_files  = 'HLPhoto/*.swift'
+  s.swift_version = '4.2'
+  s.source_files  = 'PHPhotoDemo/PHPhotoDemo/HLPhoto/*.swift'
   s.frameworks = 'UIKit', 'Photos'
-  #s.exclude_files = "Classes/Exclude"
 
-  # s.public_header_files = "Classes/**/*.h"
+  s.requires_arc = true
 
-   s.requires_arc = true
-   s.swift_version = '4.2'
 
 
 end
