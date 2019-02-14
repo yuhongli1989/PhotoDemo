@@ -14,7 +14,6 @@
 		6D216E042215051100CB078D /* HLPhotoItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D216E032215051100CB078D /* HLPhotoItem.swift */; };
 		6D26CA7921FEA2A50013BBE6 /* HLPhoto.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D26CA7821FEA2A50013BBE6 /* HLPhoto.swift */; };
 		6D26CA7C21FEA3310013BBE6 /* HLImageExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D26CA7B21FEA3310013BBE6 /* HLImageExtension.swift */; };
-		6D26CA7E21FEB0F10013BBE6 /* aaa.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 6D26CA7D21FEB0F10013BBE6 /* aaa.jpg */; };
 		DF18355E21FD78FD006D1739 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF18355D21FD78FD006D1739 /* HomeViewController.swift */; };
 		DF18357221FDAB3E006D1739 /* language.strings in Resources */ = {isa = PBXBuildFile; fileRef = DF18357021FDA946006D1739 /* language.strings */; };
 		DF18357521FDC2A2006D1739 /* PhotoColictionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF18357321FDC2A2006D1739 /* PhotoColictionCell.swift */; };
@@ -39,7 +38,6 @@
 		6D216E032215051100CB078D /* HLPhotoItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HLPhotoItem.swift; sourceTree = "<group>"; };
 		6D26CA7821FEA2A50013BBE6 /* HLPhoto.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HLPhoto.swift; sourceTree = "<group>"; };
 		6D26CA7B21FEA3310013BBE6 /* HLImageExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HLImageExtension.swift; sourceTree = "<group>"; };
-		6D26CA7D21FEB0F10013BBE6 /* aaa.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = aaa.jpg; sourceTree = "<group>"; };
 		DF18355D21FD78FD006D1739 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		DF18356621FDA761006D1739 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Main.strings"; sourceTree = "<group>"; };
 		DF18356721FDA761006D1739 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/LaunchScreen.strings"; sourceTree = "<group>"; };
@@ -129,7 +127,6 @@
 			isa = PBXGroup;
 			children = (
 				6D216DFA2213F3A000CB078D /* HLPhoto */,
-				6D26CA7D21FEB0F10013BBE6 /* aaa.jpg */,
 				6D26CA7721FEA2050013BBE6 /* PHPhotoUtility */,
 				DF18357D21FDE5F3006D1739 /* Utilite */,
 				DF77752721FBFB2E0057A29D /* AppDelegate.swift */,
@@ -213,7 +210,6 @@
 				DF18357221FDAB3E006D1739 /* language.strings in Resources */,
 				DF77753221FBFB320057A29D /* LaunchScreen.storyboard in Resources */,
 				DF77752F21FBFB320057A29D /* Assets.xcassets in Resources */,
-				6D26CA7E21FEB0F10013BBE6 /* aaa.jpg in Resources */,
 				DF18357A21FDCC07006D1739 /* HLAlbumViewController.xib in Resources */,
 				DF77752D21FBFB2E0057A29D /* Main.storyboard in Resources */,
 			);
