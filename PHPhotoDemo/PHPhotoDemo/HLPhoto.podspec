@@ -13,7 +13,7 @@ Pod::Spec.new do |s|
   s.license      = "MIT"
   s.author             = { "yuhongli" => "753597827@qq.com" }
   s.ios.deployment_target = "8.0"
-  s.source       = { :git => "https://github.com/yuhongli1989/PhotoDemo/.git", :tag => "#{s.version}" }
+  s.source       = { :git => "https://github.com/yuhongli1989/PhotoDemo.git", :tag => "#{s.version}" }
 
   s.source_files  = 'HLPhoto/*.swift'
   s.frameworks = 'UIKit', 'Photos'
