@@ -16,7 +16,7 @@ Pod::Spec.new do |s|
   #
 
   s.name         = "HLPhoto"
-  s.version      = "0.0.1"
+  s.version      = "1.0.0"
   s.summary      = "基于Photo简单封装，便于获取图片"
 
   # This description is used to generate tags and improve search results.
@@ -25,9 +25,10 @@ Pod::Spec.new do |s|
   #   * Write the description between the DESC delimiters below.
   #   * Finally, don't worry about the indent, CocoaPods strips it!
   s.description  = <<-DESC
+                    pod私有库-照片访问。
                    DESC
 
-  s.homepage     = "https://github.com/yuhongli1989/PhotoDemo/tree/master/PHPhotoDemo/PHPhotoDemo/HLPhoto"
+  s.homepage     = "https://github.com/yuhongli1989/PhotoDemo.git"
   # s.screenshots  = "www.example.com/screenshots_1.gif", "www.example.com/screenshots_2.gif"
 
 
@@ -38,7 +39,7 @@ Pod::Spec.new do |s|
   #  Popular ones are 'MIT', 'BSD' and 'Apache License, Version 2.0'.
   #
 
-  s.license      = "MIT (example)"
+  s.license      = "MIT"
   # s.license      = { :type => "MIT", :file => "FILE_LICENSE" }
 
 
