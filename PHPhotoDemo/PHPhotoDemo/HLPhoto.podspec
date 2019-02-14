@@ -28,7 +28,7 @@ Pod::Spec.new do |s|
                     pod私有库-照片访问。
                    DESC
 
-  s.homepage     = "https://github.com/yuhongli1989/PhotoDemo.git"
+  s.homepage     = "https://github.com/yuhongli1989/PhotoDemo"
   # s.screenshots  = "www.example.com/screenshots_1.gif", "www.example.com/screenshots_2.gif"
 
 
@@ -65,10 +65,10 @@ Pod::Spec.new do |s|
   #
 
   # s.platform     = :ios
-  s.platform     = :ios, "8.0"
+#s.platform     = :ios, "8.0"
 
   #  When using multiple platforms
-  # s.ios.deployment_target = "5.0"
+  s.ios.deployment_target = "8.0"
   # s.osx.deployment_target = "10.7"
   # s.watchos.deployment_target = "2.0"
   # s.tvos.deployment_target = "9.0"
@@ -80,7 +80,7 @@ Pod::Spec.new do |s|
   #  Supports git, hg, bzr, svn and HTTP.
   #
 
-s.source       = { :git => "https://github.com/yuhongli1989/PhotoDemo.git", :tag => "#{s.version}" }
+s.source       = { :git => "https://github.com/yuhongli1989/PhotoDemo/.git", :tag => "#{s.version}" }
 
 
   # ――― Source Code ―――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――― #
@@ -91,7 +91,7 @@ s.source       = { :git => "https://github.com/yuhongli1989/PhotoDemo.git", :tag
   #  Not including the public_header_files will make all headers public.
   #
 
-  s.source_files  = "PHPhotoDemo/HLPhoto/**/*.{swift}"
+  s.source_files  = 'PHPhotoDemo/HLPhoto/*.swift'
 #s.exclude_files = "Classes/Exclude"
 
   # s.public_header_files = "Classes/**/*.h"
